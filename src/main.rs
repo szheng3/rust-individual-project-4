@@ -1,24 +1,27 @@
+
 use tract_ndarray::Array;
 use tract_onnx::prelude::*;
 use std::{
+    collections::HashMap,
+    fs::File,
+    io::BufReader,
     path::{Path, PathBuf},
     str::FromStr,
 };
+use serde::Deserialize;
+
+#[derive(Deserialize)]
+struct ImageNetLabels(Vec<String>);
+
 fn main() -> TractResult<()> {
     let model_dir = PathBuf::from_str("./onnx")?;
 
     let model = tract_onnx::onnx()
-        // load the model
-
         .model_for_path(Path::join(&model_dir, "resnet.onnx"))?
-        // specify input type and shape
         .with_input_fact(0, f32::fact([1, 3, 224, 224]).into())?
-        // optimize the model
         .into_optimized()?
-        // make the model runnable and fix its inputs and outputs
         .into_runnable()?;
 
-    // Imagenet mean and standard deviation
     let mean = Array::from_shape_vec((1, 3, 1, 1), vec![0.485, 0.456, 0.406])?;
     let std = Array::from_shape_vec((1, 3, 1, 1), vec![0.229, 0.224, 0.225])?;
 
@@ -33,13 +36,27 @@ fn main() -> TractResult<()> {
 
     let result = model.run(tvec!(image.into()))?;
 
-    // find and display the max value with its index
     let best = result[0]
         .to_array_view::<f32>()?
         .iter()
         .cloned()
         .zip(1..)
         .max_by(|a, b| a.0.partial_cmp(&b.0).unwrap());
-    println!("result: {best:?}");
+
+    let file = File::open(Path::join(&model_dir, "imagenet-simple-labels.json")).unwrap();
+    let reader = BufReader::new(file);
+    let labels: ImageNetLabels = serde_json::from_reader(reader).unwrap();
+    let index_to_name: HashMap<usize, String> = labels.0.into_iter().enumerate().collect();
+
+    if let Some((value, index)) = best {
+        if let Some(class_name) = index_to_name.get(&(index - 1)) {
+            println!("result: Some(({:.6}, {} -> {}))", value, index, class_name);
+        } else {
+            println!("result: Some(({:.6}, {}))", value, index);
+        }
+    } else {
+        println!("result: None");
+    }
+
     Ok(())
 }
