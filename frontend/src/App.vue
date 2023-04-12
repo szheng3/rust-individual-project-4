@@ -6,6 +6,8 @@ import {useRouter} from 'vue-router'
 const links = ref([
   'Summarization',
   'ONNX',
+  'Classification',
+
 ]);
 
 const router = useRouter()
@@ -17,6 +19,9 @@ const goToDashboard = (link: string) => {
       break;
     case 'ONNX':
       router.push('/onnx')
+      break;
+    case 'Classification':
+      router.push('/Classification')
       break;
     default:
       router.push('/')
