@@ -20,7 +20,7 @@ This project aims to build a Rust micro-server that image classification. The pr
 ![image](./assets/ml.png)
 ## Demo
 * [https://apiv2.sszzz.me](https://apiv2.sszzz.me)
-  ![image](./assets/demo2.png)
+  ![image](./assets/demo3.png)
 
 
 ## Kubernetes Deployment
@@ -60,10 +60,8 @@ docker run -d -p 8000:8000 szheng3/sz-rust-ml:latest-gpu
 ## Setup Manually
 
 1. Install rust via [rustup](https://rustup.rs/)
-2. Install the libtorch (for Mac M1), Intel chips users can skip this step
-3. node
+2. node
 ```
-brew install pytorch@1.13.1
 ```
 
 
