@@ -10,14 +10,6 @@ const showResult = ref(false);
 
 const preview = ref(null)
 
-// const previewImage = () => {
-//   const reader = new FileReader()
-//   reader.readAsDataURL(selectedFile.value)
-//   reader.onload = () => {
-//     preview.value = reader.result
-//   }
-// }
-
 const onFileInputChange = (event) => {
   selectedFile.value = event.target.files[0];
   const reader = new FileReader()
