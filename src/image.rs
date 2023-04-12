@@ -47,19 +47,6 @@ pub(crate) fn label(image_path:String) -> TractResult<(String)> {
     let reader = BufReader::new(file);
     let labels: ImageNetLabels = serde_json::from_reader(reader).unwrap();
     let index_to_name: HashMap<usize, String> = labels.0.into_iter().enumerate().collect();
-
-    // if let Some((value, index)) = best {
-    //     if let Some(class_name) = index_to_name.get(&(index - 1)) {
-    //         println!("result: Some(({:.6}, {} -> {}))", value, index, class_name);
-    //         Ok(class_name.clone())
-    //     } else {
-    //         println!("result: Some(({:.6}, {}))", value, index);
-    //     }
-    // } else {
-    //     println!("result: None");
-    // }.expect("TODO: panic message");
-    //
-    // Ok(())
     if let Some((value, index)) = best {
         if let Some(class_name) = index_to_name.get(&(index - 1)) {
             // println!("result: Some(({:.6}, {} -> {}))", value, index, class_name);

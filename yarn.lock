@@ -2,39 +2,7 @@
 # yarn lockfile v1
 
 
-"@tanstack/match-sorter-utils@^8.1.1":
-  version "8.7.6"
-  resolved "https://registry.yarnpkg.com/@tanstack/match-sorter-utils/-/match-sorter-utils-8.7.6.tgz#ccf54a37447770e0cf0fe49a579c595fd2655b16"
-  integrity sha512-2AMpRiA6QivHOUiBpQAVxjiHAA68Ei23ZUMNaRJrN6omWiSFLoYrxGcT6BXtuzp0Jw4h6HZCmGGIM/gbwebO2A==
-  dependencies:
-    remove-accents "0.4.2"
-
-"@tanstack/query-core@4.24.10":
-  version "4.24.10"
-  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-4.24.10.tgz#758e1f5b2d7faf7316d299facd272a9f64c26299"
-  integrity sha512-2QywqXEAGBIUoTdgn1lAB4/C8QEqwXHj2jrCLeYTk2xVGtLiPEUD8jcMoeB2noclbiW2mMt4+Fq7fZStuz3wAQ==
-
-"@tanstack/vue-query@^4.24.10":
-  version "4.24.10"
-  resolved "https://registry.yarnpkg.com/@tanstack/vue-query/-/vue-query-4.24.10.tgz#8cfd695318d00102d80e51691d8f6fcfa2e6bf92"
-  integrity sha512-K9mtij3WpQquySsaNhyN5ZQT3oO6Y69J+OT2/NYQYvYCI1AL1S5/sQ1n2FtpyslgrJn9khSerFB7icbYcbcubA==
-  dependencies:
-    "@tanstack/match-sorter-utils" "^8.1.1"
-    "@tanstack/query-core" "4.24.10"
-    "@vue/devtools-api" "^6.4.2"
-    vue-demi "^0.13.11"
-
-"@vue/devtools-api@^6.4.2":
-  version "6.5.0"
-  resolved "https://registry.yarnpkg.com/@vue/devtools-api/-/devtools-api-6.5.0.tgz#98b99425edee70b4c992692628fa1ea2c1e57d07"
-  integrity sha512-o9KfBeaBmCKl10usN4crU53fYtC1r7jJwdGKjPT24t348rHxgfpZ0xL3Xm/gLUYnc0oTp8LAmrxOeLyu6tbk2Q==
-
-remove-accents@0.4.2:
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/remove-accents/-/remove-accents-0.4.2.tgz#0a43d3aaae1e80db919e07ae254b285d9e1c7bb5"
-  integrity sha512-7pXIJqJOq5tFgG1A2Zxti3Ht8jJF337m4sowbuHsW30ZnkQFnDzy9qBNhgzX8ZLW4+UBcXiiR7SwR6pokHsxiA==
-
-vue-demi@^0.13.11:
-  version "0.13.11"
-  resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.13.11.tgz#7d90369bdae8974d87b1973564ad390182410d99"
-  integrity sha512-IR8HoEEGM65YY3ZJYAjMlKygDQn25D5ajNFNoKh9RSDMQtlzCxtfQjdQgv9jjK+m3377SsJXY8ysq8kLCZL25A==
+"@mdi/font@^7.2.96":
+  version "7.2.96"
+  resolved "https://registry.yarnpkg.com/@mdi/font/-/font-7.2.96.tgz#af800d9fe3b424f85ad45e9baa755bd003ab4986"
+  integrity sha512-e//lmkmpFUMZKhmCY9zdjRe4zNXfbOIJnn6xveHbaV2kSw5aJ5dLXUxcRt1Gxfi7ZYpFLUWlkG2MGSFAiqAu7w==
