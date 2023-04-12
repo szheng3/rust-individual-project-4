@@ -45,8 +45,8 @@ const upload = async () => {
 <template>
   <v-container>
     <v-row >
-      <v-col cols="12" sm="6" class="mx-auto">
-        <v-card class="mt-4 pa-4">
+      <v-col cols="12" sm="6" >
+        <v-card class="pa-4">
           <v-form @submit.prevent="" class="pa-3">
             <v-file-input
                 accept="image/*"
@@ -86,8 +86,8 @@ const upload = async () => {
           </v-form>
         </v-card>
       </v-col>
-      <v-col cols="12" sm="6" class="mx-auto">
-        <v-card class="mt-4 pa-4" v-if="showResult">
+      <v-col cols="12" sm="6">
+        <v-card class="pa-4" v-if="showResult">
           <v-card-title class="headline">Classification Result</v-card-title>
           <v-card-text>{{ result.message }}</v-card-text>
         </v-card>
