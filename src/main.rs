@@ -1,6 +1,7 @@
 mod lib;
 mod tests;
 mod onnx;
+mod image;
 
 use actix_web::middleware::Logger;
 use actix_web::{get, post, App, HttpResponse, HttpServer, Responder, web};
@@ -107,10 +108,11 @@ async fn save_file(mut field: Field) -> Result<String, std::io::Error> {
     let content_disposition = field.content_disposition();
 
     if let Some(name) = content_disposition.get_filename() {
-        file_name = Some(format!("uploaded/{}", name));
+        file_name = Some(format!("/home/vscode/uploaded/{}", name));
     }
-
     let file_path = file_name.unwrap();
+    println!("{}", file_path);
+
     let mut file = std::fs::File::create(file_path.clone())?;
 
     while let Some(chunk) = field.next().await {
@@ -123,12 +125,17 @@ async fn save_file(mut field: Field) -> Result<String, std::io::Error> {
 
 
 
-#[post("/upload")]
+#[post("/api/upload")]
 async fn upload(mut payload: Multipart) -> impl Responder {
     while let Ok(Some(mut field)) = payload.try_next().await {
         match save_file(field).await {
             Ok(file_path) => {
-                return HttpResponse::Ok().json(format!("File saved: {}", file_path))
+                let result=image::label(file_path.clone()).expect("TODO: panic message");
+                let response_json = &GenericResponse {
+                    status: "success".to_string(),
+                    message: result.to_string(),
+                };
+                return HttpResponse::Ok().json(response_json)
             }
             Err(err) => {
                 return HttpResponse::InternalServerError().json(format!("Error: {}", err))
@@ -150,13 +157,13 @@ async fn main() -> Result<(), ExitFailure> {
         .init();
     log::info!("Server started successfully");
     HttpServer::new(move || {
-        let cors = Cors::default()
-            .allow_any_origin() // Allow requests from any origin
-            .allowed_methods(vec!["GET", "POST", "OPTIONS"])
-            .max_age(3600);
-
-
         App::new()
+            .wrap(
+                Cors::default()
+                    .allow_any_origin()
+                    .allow_any_method()
+                    .allow_any_header(),
+            )
             // .wrap(cors) // Add the CORS middleware to the app
             .service(api_health_handler)
             .service(upload)

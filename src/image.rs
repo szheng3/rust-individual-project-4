@@ -13,7 +13,7 @@ use serde::Deserialize;
 #[derive(Deserialize)]
 struct ImageNetLabels(Vec<String>);
 
-fn main() -> TractResult<()> {
+pub(crate) fn label(image_path:String) -> TractResult<(String)> {
     let model_dir = PathBuf::from_str("./onnx")?;
 
     let model = tract_onnx::onnx()
@@ -25,7 +25,7 @@ fn main() -> TractResult<()> {
     let mean = Array::from_shape_vec((1, 3, 1, 1), vec![0.485, 0.456, 0.406])?;
     let std = Array::from_shape_vec((1, 3, 1, 1), vec![0.229, 0.224, 0.225])?;
 
-    let img = image::open("elephants.jpg").unwrap().to_rgb8();
+    let img = image::open(image_path).unwrap().to_rgb8();
     let resized = image::imageops::resize(&img, 224, 224, ::image::imageops::FilterType::Triangle);
     let image: Tensor =
         ((tract_ndarray::Array4::from_shape_fn((1, 3, 224, 224), |(_, c, y, x)| {
@@ -48,15 +48,29 @@ fn main() -> TractResult<()> {
     let labels: ImageNetLabels = serde_json::from_reader(reader).unwrap();
     let index_to_name: HashMap<usize, String> = labels.0.into_iter().enumerate().collect();
 
+    // if let Some((value, index)) = best {
+    //     if let Some(class_name) = index_to_name.get(&(index - 1)) {
+    //         println!("result: Some(({:.6}, {} -> {}))", value, index, class_name);
+    //         Ok(class_name.clone())
+    //     } else {
+    //         println!("result: Some(({:.6}, {}))", value, index);
+    //     }
+    // } else {
+    //     println!("result: None");
+    // }.expect("TODO: panic message");
+    //
+    // Ok(())
     if let Some((value, index)) = best {
         if let Some(class_name) = index_to_name.get(&(index - 1)) {
-            println!("result: Some(({:.6}, {} -> {}))", value, index, class_name);
+            // println!("result: Some(({:.6}, {} -> {}))", value, index, class_name);
+            Ok(class_name.clone())
         } else {
-            println!("result: Some(({:.6}, {}))", value, index);
+            // println!("result: Some(({:.6}, {}))", value, index);
+            Ok(format!("Class name not found for index: {}", index).into())
         }
     } else {
-        println!("result: None");
-    }
+        Ok("No result".to_string())
 
-    Ok(())
+        // println!("result: None");
+    }
 }

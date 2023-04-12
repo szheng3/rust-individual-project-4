@@ -31,7 +31,7 @@ benchx86:
 releasex86:
 	cargo build --release
 
-frontend:
+web:
 	cd frontend && yarn install && yarn build && cp -R ./dist ../
 
 
