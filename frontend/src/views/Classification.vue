@@ -47,7 +47,6 @@ const upload = async () => {
     <v-row >
       <v-col cols="12" sm="6" class="mx-auto">
         <v-card class="mt-4 pa-4">
-          <v-card-title class="headline">Image Classification</v-card-title>
           <v-form @submit.prevent="" class="pa-3">
             <v-file-input
                 accept="image/*"

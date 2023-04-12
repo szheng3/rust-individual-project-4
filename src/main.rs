@@ -16,6 +16,8 @@ use actix_multipart::{Field, Multipart};
 use futures::{StreamExt, TryStreamExt};
 use std::fs;
 use std::io::Write;
+use std::path::PathBuf;
+
 
 extern crate log;
 
@@ -104,12 +106,25 @@ async fn api_summary_handler(info: web::Json<Info>) -> impl Responder {
 }
 
 async fn save_file(mut field: Field) -> Result<String, std::io::Error> {
+
+    let mut upload_dir = PathBuf::from(std::env::current_dir().unwrap());
+    upload_dir.push("upload");
+
+    if !upload_dir.exists() {
+        match fs::create_dir(&upload_dir) {
+            Ok(_) => println!("Created directory: {:?}", upload_dir),
+            Err(e) => panic!("Failed to create directory {:?}: {}", upload_dir, e),
+        }
+    }
     let mut file_name = None;
     let content_disposition = field.content_disposition();
     if let Some(name) = content_disposition.get_filename() {
-        file_name = Some(format!("/home/vscode/uploaded/{}", name));
+        let upload_dir_string = upload_dir.to_string_lossy().to_string();
+
+        file_name = Some(format!("{}/{}",upload_dir_string ,name));
     }
     let file_path = file_name.unwrap();
+
     println!("{}", file_path);
 
     let mut file = std::fs::File::create(file_path.clone())?;
