@@ -106,9 +106,8 @@ async fn api_summary_handler(info: web::Json<Info>) -> impl Responder {
 async fn save_file(mut field: Field) -> Result<String, std::io::Error> {
     let mut file_name = None;
     let content_disposition = field.content_disposition();
-    fs::create_dir_all("/home/uploaded/").unwrap();
     if let Some(name) = content_disposition.get_filename() {
-        file_name = Some(format!("/home/uploaded/{}", name));
+        file_name = Some(format!("/home/vscode/uploaded/{}", name));
     }
     let file_path = file_name.unwrap();
     println!("{}", file_path);
