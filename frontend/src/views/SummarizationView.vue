@@ -90,7 +90,7 @@ const submitForm = async () => {
     <v-row>
       <v-col cols="12"
              sm="6">
-        <v-sheet rounded class="mt-4">
+        <v-sheet rounded >
 
           <v-form ref="myForm" @submit.prevent="submitForm" class="pa-3">
             <v-select
@@ -130,7 +130,7 @@ const submitForm = async () => {
       >
 
 
-        <v-card v-if="!(showResult )" variant="flat" class="mt-4">
+        <v-card v-if="!(showResult )" variant="flat">
 
           <v-card-text>
             <ContentLoader viewBox="0 0 400 350">
@@ -147,7 +147,7 @@ const submitForm = async () => {
             </ContentLoader>
           </v-card-text>
         </v-card>
-        <v-card v-if="showResult " variant="flat" class="mt-4">
+        <v-card v-if="showResult " variant="flat">
           <v-card-title class="headline">Summarization</v-card-title>
           <v-card-text>{{ result.message }}</v-card-text>
         </v-card>

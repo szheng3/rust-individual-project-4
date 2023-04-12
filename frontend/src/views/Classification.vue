@@ -46,7 +46,7 @@ const upload = async () => {
   <v-container>
     <v-row >
       <v-col cols="12" sm="6" >
-        <v-card class="pa-4">
+        <v-sheet rounded >
           <v-form @submit.prevent="" class="pa-3">
             <v-file-input
                 accept="image/*"
@@ -84,10 +84,10 @@ const upload = async () => {
               Submit
             </v-btn>
           </v-form>
-        </v-card>
+        </v-sheet>
       </v-col>
       <v-col cols="12" sm="6">
-        <v-card class="pa-4" v-if="showResult">
+        <v-card class="pa-4" v-if="showResult" variant="flat">
           <v-card-title class="headline">Classification Result</v-card-title>
           <v-card-text>{{ result.message }}</v-card-text>
         </v-card>
@@ -97,13 +97,6 @@ const upload = async () => {
 </template>
 
 <style>
-@media (min-width: 1024px) {
-  .v-container {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-  }
-}
 
 .headline {
   font-size: 1.5rem;
