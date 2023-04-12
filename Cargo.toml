@@ -21,6 +21,8 @@ log = "0.4.17"
 tract-onnx = "0.19.7"
 ndarray="0.15.6"
 tokenizers="0.13.2"
+actix-multipart = "0.6.0"
+futures = "0.3.28"
 
 [profile.release]
 opt-level = 1

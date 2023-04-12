@@ -47,7 +47,7 @@ releasex86:
 	cargo build --release
 
 frontend:
-	cd frontend-summarization && yarn install && yarn build && cp -R ./dist ../
+	cd frontend && yarn install && yarn build && cp -R ./dist ../
 
 
 

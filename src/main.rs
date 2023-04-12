@@ -11,6 +11,10 @@ use actix_web::rt::Runtime;
 use actix_files::Files;
 use actix_cors::Cors;
 use std::mem::drop;
+use actix_multipart::{Field, Multipart};
+use futures::{StreamExt, TryStreamExt};
+use std::fs;
+use std::io::Write;
 
 extern crate log;
 
@@ -98,6 +102,42 @@ async fn api_summary_handler(info: web::Json<Info>) -> impl Responder {
     HttpResponse::Ok().json(response_json)
 }
 
+async fn save_file(mut field: Field) -> Result<String, std::io::Error> {
+    let mut file_name = None;
+    let content_disposition = field.content_disposition();
+
+    if let Some(name) = content_disposition.get_filename() {
+        file_name = Some(format!("uploaded/{}", name));
+    }
+
+    let file_path = file_name.unwrap();
+    let mut file = std::fs::File::create(file_path.clone())?;
+
+    while let Some(chunk) = field.next().await {
+        let data = chunk.unwrap();
+        file.write_all(&data)?;
+    }
+
+    Ok(file_path)
+}
+
+
+
+#[post("/upload")]
+async fn upload(mut payload: Multipart) -> impl Responder {
+    while let Ok(Some(mut field)) = payload.try_next().await {
+        match save_file(field).await {
+            Ok(file_path) => {
+                return HttpResponse::Ok().json(format!("File saved: {}", file_path))
+            }
+            Err(err) => {
+                return HttpResponse::InternalServerError().json(format!("Error: {}", err))
+            }
+        }
+    }
+
+    HttpResponse::Ok().finish()
+}
 
 #[actix_web::main]
 async fn main() -> Result<(), ExitFailure> {
@@ -119,6 +159,7 @@ async fn main() -> Result<(), ExitFailure> {
         App::new()
             // .wrap(cors) // Add the CORS middleware to the app
             .service(api_health_handler)
+            .service(upload)
             .service(api_albert)
             .service(api_summary_handler)
             .service(Files::new("/", "./dist").index_file("index.html"))
