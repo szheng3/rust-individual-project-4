@@ -17,6 +17,7 @@ use futures::{StreamExt, TryStreamExt};
 use std::fs;
 use std::io::Write;
 use std::path::PathBuf;
+use actix_web::web::Json;
 
 
 extern crate log;
@@ -41,16 +42,13 @@ struct Info {
     context: String,
     minlength: i64,
     model: ModelType,
-    is_gpu:bool,
+    is_gpu: bool,
 }
 
 #[derive(Deserialize)]
 struct InfoAlbert {
     context: String,
 }
-
-
-
 
 
 #[get("/api/health")]
@@ -66,7 +64,7 @@ async fn api_health_handler() -> HttpResponse {
 #[post("/api/albert")]
 async fn api_albert(info: web::Json<InfoAlbert>) -> impl Responder {
     info!("request for albert");
-    let output=onnx::abert_onnx(&info.context.to_owned()).unwrap();
+    let output = onnx::abert_onnx(&info.context.to_owned()).unwrap();
     let response_json = &GenericResponse {
         status: "success".to_string(),
         message: output.to_string(),
@@ -80,7 +78,7 @@ async fn api_albert(info: web::Json<InfoAlbert>) -> impl Responder {
 
 #[post("/api/summary")]
 async fn api_summary_handler(info: web::Json<Info>) -> impl Responder {
-    let summarization_model = lib::init_summarization_model(info.model, info.minlength,info.is_gpu);
+    let summarization_model = lib::init_summarization_model(info.model, info.minlength, info.is_gpu);
     info!("init model success");
     let this_device = Device::cuda_if_available();
     match this_device {
@@ -106,7 +104,6 @@ async fn api_summary_handler(info: web::Json<Info>) -> impl Responder {
 }
 
 async fn save_file(mut field: Field) -> Result<String, std::io::Error> {
-
     let mut upload_dir = PathBuf::from(std::env::current_dir().unwrap());
     upload_dir.push("upload");
 
@@ -121,7 +118,7 @@ async fn save_file(mut field: Field) -> Result<String, std::io::Error> {
     if let Some(name) = content_disposition.get_filename() {
         let upload_dir_string = upload_dir.to_string_lossy().to_string();
 
-        file_name = Some(format!("{}/{}",upload_dir_string ,name));
+        file_name = Some(format!("{}/{}", upload_dir_string, name));
     }
     let file_path = file_name.unwrap();
 
@@ -138,31 +135,40 @@ async fn save_file(mut field: Field) -> Result<String, std::io::Error> {
 }
 
 
+#[derive(Serialize)]
+struct FileResult {
+    message: String,
+}
 
 #[post("/api/upload")]
 async fn upload(mut payload: Multipart) -> impl Responder {
+    let mut results = Vec::new();
+
     while let Ok(Some(mut field)) = payload.try_next().await {
         match save_file(field).await {
             Ok(file_path) => {
-                let result=image::label(file_path.clone()).expect("TODO: panic message");
-                let response_json = &GenericResponse {
-                    status: "success".to_string(),
+                let result = image::label(file_path.clone()).expect("TODO: panic message");
+                results.push(FileResult {
                     message: result.to_string(),
-                };
-                return HttpResponse::Ok().json(response_json)
+                });
             }
             Err(err) => {
-                return HttpResponse::InternalServerError().json(format!("Error: {}", err))
+                results.push(FileResult {
+                    message: format!("Error: {}", err),
+                });
             }
         }
     }
 
-    HttpResponse::Ok().finish()
+    if results.is_empty() {
+        HttpResponse::NoContent().finish()
+    } else {
+        HttpResponse::Ok().json(Json(results.into_iter().next().unwrap()))
+    }
 }
 
 #[actix_web::main]
 async fn main() -> Result<(), ExitFailure> {
-
     if std::env::var_os("RUST_LOG").is_none() {
         std::env::set_var("RUST_LOG", "actix_web=info");
     }
