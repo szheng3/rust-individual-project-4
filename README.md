@@ -1,14 +1,14 @@
-[![Tests](https://github.com/szheng3/rust-individual-project-3/actions/workflows/tests.yml/badge.svg)](https://github.com/szheng3/rust-individual-project-3/actions/workflows/tests.yml)
-[![Build binary release](https://github.com/szheng3/rust-individual-project-3/actions/workflows/release.yml/badge.svg)](https://github.com/szheng3/rust-individual-project-3/actions/workflows/release.yml)
-[![Clippy](https://github.com/szheng3/rust-individual-project-3/actions/workflows/lint.yml/badge.svg)](https://github.com/szheng3/rust-individual-project-3/actions/workflows/lint.yml)
-[![Rustfmt](https://github.com/szheng3/rust-individual-project-3/actions/workflows/rustfmt.yml/badge.svg)](https://github.com/szheng3/rust-individual-project-3/actions/workflows/rustfmt.yml)
-[![publish to Dockerhub](https://github.com/szheng3/rust-individual-project-3/actions/workflows/publish.yml/badge.svg)](https://github.com/szheng3/rust-individual-project-3/actions/workflows/publish.yml)
-[![Benchmark](https://github.com/szheng3/rust-individual-project-3/actions/workflows/bench.yml/badge.svg)](https://github.com/szheng3/rust-individual-project-3/actions/workflows/bench.yml)
+[![Tests](https://github.com/szheng3/rust-individual-project-4/actions/workflows/tests.yml/badge.svg)](https://github.com/szheng3/rust-individual-project-4/actions/workflows/tests.yml)
+[![Build binary release](https://github.com/szheng3/rust-individual-project-4/actions/workflows/release.yml/badge.svg)](https://github.com/szheng3/rust-individual-project-4/actions/workflows/release.yml)
+[![Clippy](https://github.com/szheng3/rust-individual-project-4/actions/workflows/lint.yml/badge.svg)](https://github.com/szheng3/rust-individual-project-4/actions/workflows/lint.yml)
+[![Rustfmt](https://github.com/szheng3/rust-individual-project-4/actions/workflows/rustfmt.yml/badge.svg)](https://github.com/szheng3/rust-individual-project-4/actions/workflows/rustfmt.yml)
+[![publish to Dockerhub](https://github.com/szheng3/rust-individual-project-4/actions/workflows/publish.yml/badge.svg)](https://github.com/szheng3/rust-individual-project-4/actions/workflows/publish.yml)
+[![Benchmark](https://github.com/szheng3/rust-individual-project-4/actions/workflows/bench.yml/badge.svg)](https://github.com/szheng3/rust-individual-project-4/actions/workflows/bench.yml)
 
-# Individual Project 3 - Rust micro-server for Text Summarization
+# Individual Project 4 - Rust micro-server for image classification
 
-This project aims to build a Rust micro-server that summarizes text, based on the common task of reading and summarizing books among students. The project uses the `rust actix` and `libtorch` to run a pre-trained `hugging-face` model for summarization.
-Compared with the Individual Project 2, this project add more functions such as onnx model with albert models, GPU support for rust-bert, etc.
+This project aims to build a Rust micro-server that image classification. The project is based on onnx resnet model to classify images. The project is built with Rust, libtorch, and hugging-face pretrained models. The project is deployed on kubernetes.
+
 ## Project Goals/Outcomes
 
 * Develop my Rust micro-service with kubernetes
@@ -43,7 +43,7 @@ kubectl apply -f .
 
 ## Docker(Recommended)
 
-* This repo main branch is automatically published to Dockerhub with [CI/CD](https://github.com/szheng3/rust-individual-project-3/actions/workflows/publish.yml), you can pull the image from [here](https://hub.docker.com/repository/docker/szheng3/sz-rust-ml/general)
+* This repo main branch is automatically published to Dockerhub with [CI/CD](https://github.com/szheng3/rust-individual-project-4/actions/workflows/publish.yml), you can pull the image from [here](https://hub.docker.com/repository/docker/szheng3/sz-rust-ml/general)
 ```
 docker pull szheng3/sz-rust-ml:latest
 ```
@@ -61,13 +61,13 @@ docker run -d -p 8000:8000 szheng3/sz-rust-ml:latest-gpu
 
 1. Install rust via [rustup](https://rustup.rs/)
 2. Install the libtorch (for Mac M1), Intel chips users can skip this step
-3. node 
+3. node
 ```
 brew install pytorch@1.13.1
 ```
 
 
-## Not Mac ARM chips users
+## Run app
 * Build frontend
 ```
 make frontend 
@@ -87,29 +87,6 @@ make releasex86
 make benchx86
 ```
 
-## Mac ARM chips users
-* Build frontend
-```
-make frontend 
-```
-* change the path in the Makefile to your libtorch path
-```
-export LIBTORCH=/opt/homebrew/Cellar/pytorch/1.13.1 &&export LD_LIBRARY_PATH=${LIBTORCH}/lib:$LD_LIBRARY_PATH
-```
-* Run, you can run the rust web app.
-```
-make runarm 
-```
-* Release
-```
-make release
-```
-* Bench
-```
-make bench
-```
-
-
 
 ## CI/CD
 
@@ -118,7 +95,7 @@ Github Actions configured in .github/workflows
 
 
 ## GitHub releases
-The binary could be downloaded from the release pages. [release](https://github.com/szheng3/rust-individual-project-3/releases)
+The binary could be downloaded from the release pages. [release](https://github.com/szheng3/rust-individual-project-4/releases)
 
 ## Benchmark Results
 ![Benchmark](./assets/report1.png)
