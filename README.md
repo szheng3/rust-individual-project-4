@@ -96,7 +96,7 @@ Github Actions configured in .github/workflows
 The binary could be downloaded from the release pages. [release](https://github.com/szheng3/rust-individual-project-4/releases)
 
 ## Benchmark Results
-![Benchmark](./assets/report1.png)
+![Benchmark](./assets/report2.png)
 
 ## Load Test
 |            CPU             |            GPU             |
