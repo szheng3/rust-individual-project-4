@@ -97,6 +97,12 @@ The binary could be downloaded from the release pages. [release](https://github.
 
 ## Benchmark Results
 ![Benchmark](./assets/report1.png)
+
+## Load Test
+![CPU](./assets/image001.png)
+![GPU](./assets/image002.png)
+
+
 ## Logging
 ![logging](./assets/logging.png)
 
