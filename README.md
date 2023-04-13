@@ -11,6 +11,7 @@ This project aims to build a Rust micro-server that image classification. The pr
 
 ## Project Goals/Outcomes
 
+
 * Develop my Rust micro-service with kubernetes
 * Use Github Codespaces and Copilot
 * Integrate libtorch and 'hugging-face pretrained models' into a Rust web project
