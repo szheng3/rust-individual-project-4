@@ -99,9 +99,9 @@ The binary could be downloaded from the release pages. [release](https://github.
 ![Benchmark](./assets/report1.png)
 
 ## Load Test
-![CPU](./assets/image001.png)
-![GPU](./assets/image002.png)
-
+|            CPU             |            GPU             |
+|:--------------------------:|:--------------------------:|
+| ![](./assets/image001.png) | ![](./assets/image002.png) |
 
 ## Logging
 ![logging](./assets/logging.png)
@@ -121,3 +121,4 @@ The binary could be downloaded from the release pages. [release](https://github.
 
 * [rust-cli-template](https://github.com/kbknapp/rust-cli-template)
 * [rust-bert](https://github.com/guillaume-be/rust-bert)
+* [tract](https://github.com/sonos/tract)
