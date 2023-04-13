@@ -68,7 +68,7 @@ docker run -d -p 8000:8000 szheng3/sz-rust-ml:latest-gpu
 ## Run app
 * Build frontend
 ```
-make frontend 
+make web 
 ```
 * Run, you can run the rust web app.
 ```
