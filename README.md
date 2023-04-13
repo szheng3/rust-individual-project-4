@@ -17,6 +17,7 @@ This project aims to build a Rust micro-server that image classification. The pr
 
 ## Architectural Diagram
 
+
 ![image](./assets/ml.png)
 ## Demo
 * [https://apiv2.sszzz.me](https://apiv2.sszzz.me)
